@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Suite">
+    <test name="sample1">
+        <classes>
+            <class name="com.sample.ui.baseLibrary.CommonFunctions" />
+        </classes>
+    </test>
+</suite>
