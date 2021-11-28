@@ -12,7 +12,7 @@ public class CommonFunctions {
 	@BeforeSuite
 	public void ReadCommandLineParamters()
 	{
-		String jsonFilePath=System.getProperty("jsonFilePath");
+		String jsonFilePath=System.getProperty("jsonFilePath" , "abc.json");
 		
 		if(jsonFilePath.equalsIgnoreCase("abc.json"))
 		{
