@@ -24,7 +24,7 @@ public class CommonFunctions {
 		{
 			jsonFile="src//test//resources//jsonFiles//abc.json";
 			System.out.println("file path is: " +jsonFile);
-			log.info("file path is: " +jsonFile);
+			log.info("file path of jason file is : " +jsonFile);
 		}
 		
 		functions.initBrowser();
