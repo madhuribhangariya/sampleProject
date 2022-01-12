@@ -1,14 +1,14 @@
 package com.sample.ui.baseLibrary;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Properties;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -25,6 +25,7 @@ public class DriverFunctions {
 	Properties config = null;
 	static WebDriverWait wait;
 	String browser_url = null;
+	String browser;
 	static String host = null;
 	String port = null;
 	int getWaitTime = 60;
@@ -35,7 +36,8 @@ public class DriverFunctions {
 			Properties config;
 			try {
 				config = setEnv();
-				initializeBrowser(config.getProperty("browser"));
+				browser=System.getProperty("browser", "chrome");
+				initializeBrowser(browser);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -44,7 +46,7 @@ public class DriverFunctions {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void initializeBrowser(String browser) {
+	private void initializeBrowser(String browser) throws MalformedURLException {
 		browser = browser.toLowerCase().trim();
 		String osName = System.getProperty("os.name");
 
@@ -71,12 +73,12 @@ public class DriverFunctions {
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir"));
 			options.setExperimentalOption("prefs", chromePrefs);
 
-			driver = new ChromeDriver(options);
+			driver = new RemoteWebDriver(new URL("http://192.168.99.100:4444/wd/hub"), options);
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 			break;
 
-		case "forefox":
+		case "firefox":
 			if (osName.toLowerCase().contains("windows".toLowerCase())) {
 				System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/geckodriver.exe");
 
@@ -89,7 +91,7 @@ public class DriverFunctions {
 			firefoxOptions.setHeadless(true);
 			firefoxOptions.addArguments("--no-sandbox");
 
-			driver = new FirefoxDriver(firefoxOptions);
+			driver = new RemoteWebDriver(new URL("http://192.168.99.100:4444/wd/hub"), firefoxOptions);
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 			break;
@@ -100,13 +102,13 @@ public class DriverFunctions {
 			capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 			capabilities.setCapability("requirewindowFocus", true);
 			System.setProperty("webDriver.ie.driver", "src/test/resources/drivers/IEDriverServer.exe");
-			driver = new InternetExplorerDriver(capabilities);
+			driver = new RemoteWebDriver(new URL("http://192.168.99.100:4444/wd/hub"), capabilities);
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 			break;
 
 		default:
-			driver = new ChromeDriver();
+			driver = new RemoteWebDriver(new URL("http://192.168.99.100:4444/"),DesiredCapabilities.chrome());
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 
@@ -119,7 +121,7 @@ public class DriverFunctions {
 		System.out.println("started test on : " + browserName);
 		String version = cap.getVersion().toString();
 		System.out.println("Browser Version : " + version);
-
+  
 	}
 
 	public Properties setEnv() throws IOException {
@@ -129,7 +131,7 @@ public class DriverFunctions {
 	
 	public void getUrl()
 	{
-		host=System.getProperty("host", "localhost/gocolors");
+		host=System.getProperty("host", "google.com");
 		String basePath=System.getProperty("basepath", "");
 		RestAssured.reset();
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
