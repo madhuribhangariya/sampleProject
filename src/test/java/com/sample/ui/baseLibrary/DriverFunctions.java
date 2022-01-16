@@ -137,7 +137,7 @@ public class DriverFunctions {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
 		browser_url=RestAssured.baseURI="https://" + host + basePath;
 		driver.get(browser_url);
-		System.out.println("browser url opened is: "+browser_url);
+		System.out.println("browser url is: "+browser_url);
 	}
 
 }
