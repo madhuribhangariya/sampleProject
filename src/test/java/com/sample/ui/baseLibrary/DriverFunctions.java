@@ -55,13 +55,13 @@ public class DriverFunctions {
 
 		case "chrome":
 
-			//if (osName.toLowerCase().contains("windows") ||osName.toLowerCase().contains("linux")) {
-				//System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
+			if (osName.toLowerCase().contains("windows".toLowerCase())||osName.toLowerCase().contains("linux")) {
+				System.setProperty("webdriver.chrome.driver", "src/test/resources/drivers/chromedriver.exe");
 
-			//} else {
-				//System.setProperty("webdriver.chrome.driver", "user/bin/chromedriver");
+			} else {
+				System.setProperty("webdriver.chrome.driver", "user/bin/chromedriver");
 
-			//}
+			}
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("disable-gpu");
 			options.addArguments("window-size=1980,1080");
@@ -74,13 +74,13 @@ public class DriverFunctions {
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir"));
 			options.setExperimentalOption("prefs", chromePrefs);
 
-			driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), options);
+			driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"), options);
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 			break;
 
 		case "firefox":
-			if (osName.toLowerCase().contains("windows".toLowerCase())) {
+			if (osName.toLowerCase().contains("windows".toLowerCase())||osName.toLowerCase().contains("linux")) {
 				System.setProperty("webdriver.gecko.driver", "src/test/resources/drivers/geckodriver.exe");
 
 			} else {
@@ -92,7 +92,7 @@ public class DriverFunctions {
 			firefoxOptions.setHeadless(true);
 			firefoxOptions.addArguments("--no-sandbox");
 
-			driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), firefoxOptions);
+			driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"), firefoxOptions);
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 			break;
@@ -103,13 +103,13 @@ public class DriverFunctions {
 			capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 			capabilities.setCapability("requirewindowFocus", true);
 			System.setProperty("webDriver.ie.driver", "src/test/resources/drivers/IEDriverServer.exe");
-			driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"), capabilities);
+			driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"), capabilities);
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 			break;
 
 		default:
-			driver = new RemoteWebDriver(new URL("http://127.0.0.1:4444/wd/hub"),DesiredCapabilities.chrome());
+			driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"),DesiredCapabilities.chrome());
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 
@@ -136,7 +136,7 @@ public class DriverFunctions {
 		String basePath=System.getProperty("basepath", "");
 		RestAssured.reset();
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-		browser_url=RestAssured.baseURI="https://" + host + basePath;
+		browser_url=RestAssured.baseURI="https:" + host + basePath;
 		driver.get(browser_url);
 		System.out.println("browser url is now: "+browser_url);
 	}
