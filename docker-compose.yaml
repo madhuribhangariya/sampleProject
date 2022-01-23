@@ -20,7 +20,7 @@ services:
       - SE_EVENT_BUS_HOST=hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-  selenium-code:
+  code-chrome:
     build:
       context: ./
       dockerfile: Dockerfile
@@ -28,3 +28,16 @@ services:
       - chrome
       - firefox
     command : mvn clean test -DsuiteXmlFile="src/test/resources/testData/testng.xml" -Dbrowser="chrome"
+    volumes:
+      - ./target/test-output:/usr/share/maven/test-output/
+  code-firefox:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - chrome
+      - firefox
+    command : mvn clean test -DsuiteXmlFile="src/test/resources/testData/testng.xml" -Dbrowser="firefox"
+    volumes: 
+      - ./target/:/usr/share/maven/target/
+      - ./test-output/:/usr/share/maven/test-output/
