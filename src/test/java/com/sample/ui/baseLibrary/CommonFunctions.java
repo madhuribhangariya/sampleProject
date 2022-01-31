@@ -27,8 +27,6 @@ public class CommonFunctions {
 			log.info("file path of jason file is : " +jsonFile);
 		}
 		
-		functions.initBrowser();
-		functions.getUrl();
 		
 		
 	}

@@ -8,11 +8,10 @@ import java.util.Properties;
 
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -30,14 +29,16 @@ public class DriverFunctions {
 	String port = null;
 	int getWaitTime = 60;
 	boolean result = true;
+	String execution;
 
 	public void initBrowser() {
 		if (driver == null) {
-			Properties config;
+			//Properties config;
 			try {
 				config = setEnv();
 				browser=System.getProperty("browser", "chrome");
-				initializeBrowser(browser);
+				execution=System.getProperty("execution", "local");
+				initializeBrowser(browser,execution);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -45,8 +46,7 @@ public class DriverFunctions {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
-	private void initializeBrowser(String browser) throws MalformedURLException {
+	private void initializeBrowser(String browser,String execution) throws MalformedURLException {
 		browser = browser.toLowerCase().trim();
 		String osName = System.getProperty("os.name");
 		System.out.println("os name is: " +osName);
@@ -74,7 +74,14 @@ public class DriverFunctions {
 			chromePrefs.put("download.default_directory", System.getProperty("user.dir"));
 			options.setExperimentalOption("prefs", chromePrefs);
 
+			if(execution.equalsIgnoreCase("hub"))
+			{
 			driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"), options);
+			}
+			else
+			{
+				driver = new ChromeDriver(options);
+			}
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 			break;
@@ -92,26 +99,17 @@ public class DriverFunctions {
 			firefoxOptions.setHeadless(true);
 			firefoxOptions.addArguments("--no-sandbox");
 
+			if(execution.equalsIgnoreCase("hub"))
+			{
 			driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"), firefoxOptions);
+			}
+			else
+			{
+				driver = new FirefoxDriver(firefoxOptions);
+			}
 			driver.manage().deleteAllCookies();
 			driver.manage().window().maximize();
 			break;
-
-		case "ie":
-			DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
-			capabilities.setCapability(CapabilityType.BROWSER_NAME, "ie");
-			capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-			capabilities.setCapability("requirewindowFocus", true);
-			System.setProperty("webDriver.ie.driver", "src/test/resources/drivers/IEDriverServer.exe");
-			driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"), capabilities);
-			driver.manage().deleteAllCookies();
-			driver.manage().window().maximize();
-			break;
-
-		default:
-			driver = new RemoteWebDriver(new URL("http:127.0.0.1:4444/wd/hub"),DesiredCapabilities.chrome());
-			driver.manage().deleteAllCookies();
-			driver.manage().window().maximize();
 
 		}
 
@@ -130,15 +128,15 @@ public class DriverFunctions {
 		return config;
 	}
 	
-	public void getUrl()
+	public String getUrl()
 	{
-		host=System.getProperty("host", "google.com");
+		host=System.getProperty("host", "thetestingworldapi.com/api");
 		String basePath=System.getProperty("basepath", "");
 		RestAssured.reset();
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails(LogDetail.ALL);
-		browser_url=RestAssured.baseURI="https:" + host + basePath;
-		driver.get(browser_url);
+		browser_url=RestAssured.baseURI="https://" + host + basePath;
 		System.out.println("browser url is now: "+browser_url);
+		return browser_url;
 	}
 
 }
