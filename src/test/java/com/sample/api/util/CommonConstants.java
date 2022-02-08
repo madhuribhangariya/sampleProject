@@ -12,5 +12,6 @@ public class CommonConstants {
 	public static final String addNewStudentDetails="/studentsDetails";
 	public static final String updateStudentDetails="/studentsDetails/%s";
 	public static final String deleteStudentDetails="/studentsDetails/%s";
+	public static final String getAllStudentDetails="/studentsDetails";
 
 }
