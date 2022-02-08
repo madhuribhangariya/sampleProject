@@ -25,9 +25,7 @@ public class AssertionUtil {
 	public static void addVerificationLogger(String message, String status) {
 		if(status.equalsIgnoreCase("pass"))
 		{
-			System.out.println(CommonConstants.ANSI_GREEN + message + CommonConstants.ANSI_GREEN);
-			log.info(CommonConstants.ANSI_GREEN + message + CommonConstants.ANSI_GREEN);
-			
+			System.out.println(CommonConstants.ANSI_GREEN + message + CommonConstants.ANSI_BLACK);
 		}
 		else
 		{
