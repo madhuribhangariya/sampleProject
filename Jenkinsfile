@@ -1,9 +1,7 @@
 pipeline {
-  agent any
+  agent none
   stages {
 
-    stage('Parallel') {
-      parallel {
         stage('docker-compose up') {
           steps {
             sh 'docker-compose up'
@@ -15,8 +13,7 @@ pipeline {
             sh 'docker-compose down --remove-orphans'
           }
         }
-      }
-    }
+    
   }
 
   post { 
