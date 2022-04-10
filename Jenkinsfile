@@ -6,7 +6,7 @@
       stage(‘Build’) {
         steps {
 		script{
-               bat 'docker-compose up --build hub firefox chrome'
+               bat 'docker-compose up --build'
 			   }
         }
       }
