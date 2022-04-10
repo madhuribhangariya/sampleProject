@@ -6,7 +6,7 @@
       stage(‘Build’) {
         steps {
 		script{
-               sh 'docker-compose up'
+               bat 'docker-compose up'
 			   }
         }
       }
