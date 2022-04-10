@@ -1,5 +1,5 @@
 FROM  maven:openjdk
+ENV PATH $PATH:/usr/share/maven
 COPY pom.xml usr/share/maven/
 COPY .   /usr/share/maven/
 WORKDIR usr/share/maven
-RUN mvn -f pom.xml clean test -DsuiteXmlFile="/src/test/resources/testData/apiTestng.xml"
