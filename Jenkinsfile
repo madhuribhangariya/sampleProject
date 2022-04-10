@@ -9,12 +9,12 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo 'Testing..'
+                sh docker-compose up
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                sh docker-compose down
             }
         }
     }
