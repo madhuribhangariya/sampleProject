@@ -6,7 +6,7 @@
       stage(‘Build’) {
         steps {
 		script{
-               sh docker-compose up --build
+               sh docker-compose up
 			   }
         }
       }
