@@ -27,7 +27,7 @@ services:
     depends_on:
       - chrome
       - firefox
-    command : mvn clean test -DsuiteXmlFile="src/test/resources/testData/testng.xml" -Dbrowser="chrome"
+    command : mvn clean test -DsuiteXmlFile="src/test/resources/testData/apiTestng.xml" -Dbrowser="chrome"
     volumes:
       - ./target/test-output:/usr/share/maven/sample/test-output/
   code-firefox:
@@ -37,7 +37,7 @@ services:
     depends_on:
       - chrome
       - firefox
-    command : mvn clean test -DsuiteXmlFile="src/test/resources/testData/testng.xml" -Dbrowser="firefox"
+    command : mvn clean test -DsuiteXmlFile="src/test/resources/testData/apiTestng.xml" -Dbrowser="firefox"
     volumes: 
       - ./target/:/usr/share/maven/target/
       - ./test-output/:/usr/share/maven/sample/test-output/
