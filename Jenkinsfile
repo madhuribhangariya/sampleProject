@@ -1,14 +1,12 @@
-pipeline {
-    agent any
+ pipeline {
+
+    agent none
 
     stages {
-        stage('docker-compose up')
-		{
-		steps
-		{
-		  sh docker-compose up -d
-		}
-		}
-
+      stage(‘Build’) {
+        steps {
+          sh 'usr/share/maven/sample/docker-compose up --build'
+        }
+      }
     }
 }
