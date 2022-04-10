@@ -29,7 +29,7 @@ services:
       - firefox
     command : mvn clean test -DsuiteXmlFile="src/test/resources/testData/testng.xml" -Dbrowser="chrome"
     volumes:
-      - ./target/test-output:/usr/share/maven/test-output/
+      - ./target/test-output:/usr/share/maven/sample/test-output/
   code-firefox:
     build:
       context: ./
@@ -40,4 +40,4 @@ services:
     command : mvn clean test -DsuiteXmlFile="src/test/resources/testData/testng.xml" -Dbrowser="firefox"
     volumes: 
       - ./target/:/usr/share/maven/target/
-      - ./test-output/:/usr/share/maven/test-output/
+      - ./test-output/:/usr/share/maven/sample/test-output/

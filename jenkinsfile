@@ -1,27 +1,30 @@
 pipeline {
-    // master executor should be set to 0
-    agent any
-    stages {
-        stage('Build Jar') {
-            steps {
-                //sh
-                bat "mvn clean package -DskipTests"
-            }
+  agent any
+  options {
+    parallelsAlwaysFailFast()  
+  }
+  stages {
+
+    stage('Parallel') {
+      parallel {
+        stage('docker-compose up') {
+          steps {
+            sh 'docker-compose up'
+          }
         }
-        stage('Build Image') {
-            steps {
-                //sh
-                bat "docker build -t='madhuribhangariya/selenium-docker' ."
-            }
+        stage('test') {
+          steps {
+            sh 'sleep 10'
+            sh 'docker-compose down --remove-orphans'
+          }
         }
-        stage('Push Image') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                    //sh
-                    bat "docker login --username=${user} --password=${pass}"
-                    bat "docker push madhuribhangariya/selenium-docker:latest"
-                }                           
-            }
-        }
+      }
     }
+  }
+
+  post { 
+    always {
+      sh 'docker-compose down --remove-orphans'
+    }
+  }
 }
