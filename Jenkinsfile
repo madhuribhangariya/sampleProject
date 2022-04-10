@@ -3,14 +3,14 @@
     agent any
 
     stages {
-      stage(‘doccker compose start’) {
+      stage(‘Build’) {
         steps {
 		script{
                bat 'docker-compose up --build'
 			   }
         }
       }
-	  stage(‘docker compose stop’) {
+	  stage(‘Deploy’) {
         steps {
 		script{
                bat 'docker-compose down'
